@@ -14,10 +14,14 @@ function Home() {
     const loadPopularMovies = async () => {
       try {
         const popularMovies = await getPopularMovies();
-        setMovies(popularMovies);
+        if (!popularMovies || popularMovies.length === 0) {
+          setError("No movies found. Please try again later.");
+        } else {
+          setMovies(popularMovies);
+        }
       } catch (err) {
-        console.log(err);
-        setError("Failed to load movies...");
+        console.error("API Error:", err);
+        setError("Failed to load movies. Please check your connection.");
       } finally {
         setLoading(false);
       }
@@ -25,6 +29,7 @@ function Home() {
     
     loadPopularMovies();
   }, []);
+
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -61,17 +66,34 @@ function Home() {
         </button>
       </form>
 
-    {error && <div className="error-message">{error}</div>}
+    {error && (
+      <div className="error-message">
+        {error}
+        <button onClick={() => window.location.reload()} style={{marginLeft: '10px'}}>
+          Retry
+        </button>
+      </div>
+    )}
+
 
       {loading ? (
-        <div className="loading">Loading.....</div>
-      ) : (
-        <div className="movie-grid">
+        <div className="loading">
+          Loading...
+          <div style={{marginTop: '10px'}}>Please wait while we fetch the movies</div>
+        </div>
+      ) : movies.length > 0 ? (
+
+        <div className="movies-grid">
           {movies.map((movie) => (
             <MovieCard movie={movie} key={movie.id} />
           ))}
         </div>
+      ) : (
+        <div className="no-movies">
+          No movies available at the moment.
+        </div>
       )}
+
     </div>
   );
 }

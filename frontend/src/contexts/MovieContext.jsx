@@ -1,8 +1,8 @@
 import { createContext, useState, useContext, useEffect } from "react";
 
-const MovieContex = createContext();
+const MovieContext = createContext();
 
-export const useMovieContex = () => useContext(MovieContex)
+export const useMovieContext = () => useContext(MovieContext)
 
 export const MovieProvider = ({children}) => {
     const [favorites, setFavorites] = useState([])
@@ -38,7 +38,7 @@ export const MovieProvider = ({children}) => {
         isFavorite
     }
                                 //Giving value to the movie state
-    return <MovieContex.Provider value={value}>
+    return <MovieContext.Provider value={value}>
         {children}
-    </MovieContex.Provider>
+    </MovieContext.Provider>
 }

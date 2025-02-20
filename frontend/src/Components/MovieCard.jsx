@@ -1,10 +1,12 @@
 import "../css/MovieCard.css";
-import { useMovieContex } from "../contexts/MovieContext";
+import { useMovieContext } from "../contexts/MovieContext";
+
 
 //The object is just getting information about the movie
 function MovieCard({movie}) {
     {/*This is the function that will hold all the logic for the like button*/}
-    const {isFavorite, addToFavorites, removeFromFavorites} = useMovieContex()
+    const {isFavorite, addToFavorites, removeFromFavorites} = useMovieContext()
+
 
     const favorite = isFavorite(movie.id)
 
@@ -16,6 +18,7 @@ function MovieCard({movie}) {
     }
 
     return <div className="movie-card">
+        <div>
         <div className="movie-poster">
             {/*Making it dybanic by giving it objects and not actual values*/}
             {/*Adding 5the posters to the card */}
@@ -29,6 +32,7 @@ function MovieCard({movie}) {
             {/*Using the braces because were using part of the prop  declared in the main function*/}
             <h3>{movie.title}</h3>
             <p>{movie.release_date?.split("-")[0]}</p>
+        </div>
         </div>
     </div>
 }
